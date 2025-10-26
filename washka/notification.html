@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Washka - Laundry System</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+
+        :root {
+            --body-color: #CFD8FF;
+            --sidebar-color: #FFF;
+            --primary-color: #33349b;
+            --gamit-color: #1b0d63;
+            --primary-color-light: #F6F5FF;
+            --text-color: #707070;
+            --tran-05: all 0.5s ease;
+            
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: var(--body-color);
+        }
+        /* fade */
+        body {
+        margin: 0;
+        opacity: 0;
+        transition: opacity 0.5s ease;
+    }
+
+    body.fade-in {
+        opacity: 1;
+    }
+        .sidebar .text {
+            font-size: 20px;
+            font-weight: 500;
+            color: var(--text-color);
+            transition: var(--tran-04);
+            white-space: nowrap;
+            opacity: 1;
+        }
+        .sidebar .image {
+            min-width: 60px;
+            display: flex;
+            align-items: center;
+        }
+        .sidebar {
+            position: fixed;
+            top: 0; left: 0; height: 100%; width: 250px;
+            padding: 10px 14px;
+            background: var(--sidebar-color);
+            transition: var(--tran-05);
+        }
+        .sidebar.close {
+            width: 88px;
+        }
+        .sidebar.close .text {
+            opacity: 0;
+        }
+        .sidebar li {
+            height: 50px;
+            margin-top: 50px;
+            list-style: none;
+            display: flex;
+            align-items: center;
+        }
+        .sidebar li .icon {
+            font-size: 20px;
+            min-width: 60px;
+        }
+        .sidebar li .icon,
+        .sidebar li .text {
+            color: var(--text-color);
+            transition: var(--tran-02);
+        }
+        .sidebar header {
+            position: relative;
+            margin-bottom: 25px;
+        }
+        .sidebar .image-text img {
+            width: 40px;
+            border-radius: 6px;
+        }
+        .sidebar header .image-text {
+            display: flex;
+            align-items: center;
+        }
+        header .image-text .header-text {
+            display: flex;
+            flex-direction: column;
+        }
+        .header-text .name {
+            font-weight: 600;
+        }
+        .sidebar header .toggle {
+            position: absolute;
+            top: 50%; right: -25px;
+            transform: translateY(-50%);
+            height: 25px; width: 25px;
+            background: var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            color: var(--sidebar-color);
+            font-size: 22px;
+        }
+        .sidebar .search-box {
+            background: var(--primary-color-light);
+            margin-bottom: 25px;
+        }
+        .search-box input {
+            height: 100%;
+            width: 100%;
+            background: var(--primary-color-light);
+            outline: none;
+            border: none;
+            border-radius: 6px;
+            padding-left: 10px;
+        }
+        .sidebar li a {
+            height: 100%;
+            display: flex;
+            align-items: center;
+            width: 100%;
+            text-decoration: none;
+            border-radius: 6px;
+            padding: 5px 10px;
+        }
+        .sidebar li a:hover {
+            background: var(--primary-color);
+            transition: var(--tran-05);
+        }
+        .sidebar li a:hover .icon,
+        .sidebar li a:hover .text {
+            color: var(--sidebar-color);
+            transition: var(--tran-05);
+        }
+        .sidebar .menu-bar {
+            height: calc(100% - 50px);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        } 
+        .main-content {
+            margin-left: 250px;
+            padding: 30px;
+            transition: var(--tran-05);
+        }
+        .sidebar.close ~ .main-content {
+            margin-left: 88px;
+        }
+       .main-content h2 {
+            font-size: 50px;
+        }
+        .sidebar.close ~ .container {
+    margin-left: 88px;
+    transition: all 0.5s ease;
+    }
+      .sidebar.close ~ .main-content { margin-left: 88px; }
+       
+ /* MAIN CONTENT */
+    .container {
+      display: flex;
+      width: 100%;
+      max-width: 1300px;
+      background-color: transparent;
+      gap: 25px;
+      margin-left: 250px;
+      transition: all 0.5s ease;
+      padding: 30px;
+    }
+    /* LEFT PANEL */
+    .left-panel {
+      width: 65%;
+      background: #fff;
+      border-radius: 10px;
+      padding: 20px;
+    }
+
+    .left-panel h2 {
+      background-color: #1b0d63;
+      color: white;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-size: 18px;
+      margin-bottom: 15px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+
+    table th, table td {
+      border: 1px solid #bbb;
+      text-align: center;
+      padding: 8px 5px;
+    }
+
+    .details-btn {
+      background-color: #00c61c;
+      color: white;
+      border: none;
+      padding: 4px 10px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .pagination {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 15px;
+      gap: 10px;
+    }
+
+    .pagination button {
+      background-color: #e5e5e5;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    /* RIGHT PANEL */
+    .right-panel {
+      width: 35%;
+      background-color: #fff;
+      border-radius: 10px;
+      padding: 20px;
+    }
+
+    .right-panel h2 {
+      background-color: #1b0d63;
+      color: white;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-size: 18px;
+      margin-bottom: 15px;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+
+    form label {
+      margin-top: 8px;
+      font-weight: 500;
+    }
+
+    form input {
+      padding: 7px 8px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      margin-top: 3px;
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: center;
+      margin-top: 15px;
+      gap: 15px;
+    }
+
+    .clear-btn {
+      background-color: #c81717;
+      color: white;
+      border: none;
+      padding: 7px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .send-btn {
+      background-color: #00c61c;
+      color: white;
+      border: none;
+      padding: 7px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+         /* MODAL OVERLAY */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      justify-content: center;
+      align-items: center;
+      animation: fadeIn 0.3s ease;
+      z-index: 999;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    /* MODAL BOX */
+    .modal {
+      background: white;
+      border-radius: 10px;
+      width: 400px;
+      padding: 0;
+      overflow: hidden;
+      animation: slideUp 0.3s ease;
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(30px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .modal-header {
+      background: var(--gamit-color);
+      color: white;
+      padding: 12px 20px;
+      font-weight: 600;
+      font-size: 30px;
+    }
+
+    .modal-body {
+      padding: 20px;
+    }
+
+    .modal-body label {
+      display: block;
+      font-weight: 500;
+      margin-top: 10px;
+      margin-bottom: 4px;
+    }
+
+    .modal-body input {
+      width: 100%;
+      padding: 6px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+
+    .modal-footer {
+      display: flex;
+      justify-content: space-between;
+      padding: 15px 20px;
+    }
+
+    .modal-footer button {
+      border: none;
+      padding: 8px 20px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 500;
+    }
+
+    .close-btn {
+      background: #ccc;
+    }
+
+    .delete-btn {
+      background: #c91818;
+      color: white;
+    }
+        /* Responsive */
+        @media (max-width: 992px) {
+            .report-container {
+                flex-direction: column;
+                align-items: stretch;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="sidebar close">
+        <header>
+            <div class="image-text">
+                <span class="image"><img src="logo.png" alt="logo"></span>
+                <div class="text header-text"><span class="name">Washka?</span></div>
+            </div>
+            <i class='bx bx-chevron-right toggle'></i>
+        </header>
+
+        <div class="menu-bar">
+            <div class="menu">
+                <ul class="menu-links">
+                     <li class="search-box">
+                    <i class='bx bx-search icon'></i>
+                    <input type="search" placeholder="Search">
+                </li>
+                    <li><a href="dashboard.html"><i class='bx bxs-dashboard icon'></i><span class="text nav-text">Dashboard</span></a></li>
+                    <li><a href="report.html"><i class='bx bx-file icon'></i><span class="text nav-text">Laundry Log</span></a></li>
+                    <li><a href="notification.html"><i class='bx bx-bell icon'></i><span class="text nav-text">Notifications</span></a></li>
+                </ul>
+            </div>
+            <div class="bottom-content">
+                 <!-- <li>
+                    <a href="home.php">
+                        <i class='bx bxs-caret-up-circle icon'></i>
+                        <span class="text nav-text">Landing</span>
+                    </a>
+                </li> -->
+                <li><a href="logout.php"><i class='bx bx-log-out icon'></i><span class="text nav-text">Logout</span></a></li>
+            </div>
+        </div>
+    </nav>
+
+  <!-- MAIN CONTAINER -->
+  <div class="container">
+    <!-- LEFT -->
+    <div class="left-panel">
+      <h2>Ready for Pickup</h2>
+      <table>
+        <thead>
+          <tr>
+           <th>No.</th>
+            <th>Name</th>
+            <th>Phone No.</th>
+            <th>ID Number</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>1.</td><td>Maria Santos</td><td>09928706549</td><td>20250912200</td><td><button class="details-btn">Details</button></td></tr>
+          <tr><td>2.</td><td>James Carter</td><td>09216097844</td><td>20250912201</td><td><button class="details-btn">Details</button></td></tr>
+          <tr><td>3.</td><td>Aisha Patel</td><td>09205551399</td><td>20250912202</td><td><button class="details-btn">Details</button></td></tr>
+          <tr><td>4.</td><td>Liam Nguyen</td><td>09194408723</td><td>20250912203</td><td><button class="details-btn">Details</button></td></tr>
+          <tr><td>5.</td><td>Sofia Lopez</td><td>09286174580</td><td>20250912104</td><td><button class="details-btn">Details</button></td></tr>
+          <tr><td>6.</td><td>Ethan Kim</td><td>09183349822</td><td>20250912205</td><td><button class="details-btn">Details</button></td></tr>
+          <tr><td>7.</td><td>Grace Johnson</td><td>09265439822</td><td>20250913005</td><td><button class="details-btn">Details</button></td></tr>
+          <tr><td>8.</td><td>Noah Garcia</td><td>09150887786</td><td>20250913006</td><td><button class="details-btn">Details</button></td></tr>
+          <tr><td>9.</td><td>Olivia Brown</td><td>09278451324</td><td>20250913007</td><td><button class="details-btn">Details</button></td></tr>
+          <tr><td>10.</td><td>Daniel Okoro</td><td>09172345678</td><td>20250913068</td><td><button class="details-btn">Details</button></td></tr>
+        </tbody>
+      </table>
+      <div class="pagination">
+        <button>Previous</button>
+        <span>1</span>
+        <button>Next</button>
+      </div>
+    </div>.
+
+    <!-- RIGHT -->
+    <div class="right-panel">
+        <h2>Date Filter</h2>
+       <form>
+        <label>Name:</label>
+        <input type="text">
+
+        <label>Contact Number:</label>
+        <input type="text">
+
+        <label>ID Number:</label>
+        <input type="text">
+
+        <label>Total Price:</label>
+        <input type="text">
+
+        <div class="buttons">
+          <button type="reset" class="clear-btn">Clear</button>
+          <button type="submit" class="send-btn">Deliver Message</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal">
+      <div class="modal-header" id="modalHeader">Customer Detail</div>
+      <div class="modal-body">
+        <label>ID:</label>
+        <input type="text" id="custID" readonly>
+
+        <label>Name:</label>
+        <input type="text" id="custName" readonly>
+
+        <label>Contact Number:</label>
+        <input type="text" id="custContact" readonly>
+
+        <label>Laundry Type:</label>
+        <input type="text" id="custLaundryType" readonly>
+
+        <label>Weight (Kg):</label>
+        <input type="text" id="custWeight" readonly>
+
+        <label>Status:</label>
+        <input type="text" id="custStatus" readonly>
+
+        <label>Drop-off Date:</label>
+        <input type="text" id="custDropOff" readonly>
+
+        <label>Pick-up Date:</label>
+        <input type="text" id="custPickup" readonly>
+
+        <label>Total Price:</label>
+        <input type="text" id="custPrice" readonly>
+      </div>
+      <div class="modal-footer">
+        <button class="close-btn" id="closeModal">Close</button>
+        <button class="delete-btn">Delete</button>
+      </div>
+    </div>
+  </div>
+
+    <script>
+  const sidebar = document.querySelector(".sidebar");
+  const toggle = document.querySelector(".toggle");
+
+  toggle.addEventListener('click', () => {
+      sidebar.classList.toggle("close");
+  });
+
+  // MODAL FIX
+  const modalOverlay = document.getElementById("modalOverlay");
+  const closeModal = document.getElementById("closeModal");
+
+  // Sample dynamic data
+  const customerData = {
+    "20250912200": { name: "Maria Santos", contact: "09928700649", type: "Wash & Fold", weight: "5.7", status: "Done", drop: "2025-09-12", pick: "2025-09-15", price: "₱507.3" },
+    "20250912201": { name: "James Carter", contact: "09182300490", type: "Dry Clean", weight: "3.2", status: "Processing", drop: "2025-09-10", pick: "2025-09-13", price: "₱312.0" },
+    "20250912202": { name: "Aisha Patel", contact: "09217500411", type: "Wash Only", weight: "4.5", status: "Done", drop: "2025-09-15", pick: "2025-09-17", price: "₱410.5" },
+    "20250912203": { name: "Liam Nguyen", contact: "09915830456", type: "Fold Only", weight: "6.1", status: "Pending", drop: "2025-09-14", pick: "2025-09-18", price: "₱565.0" },
+    "20250912104": { name: "Sofia Lopez", contact: "0928671580", type: "Wash Only", weight: "5.2", status: "Pending", drop: "2025-09-15", pick: "2025-09-19", price: "₱234.0" },
+    "20250912205": { name: "Ethan Kim", contact: "09183349922", type: "Dry Only", weight: "8.1", status: "Pending", drop: "2025-09-16", pick: "2025-09-20", price: "₱220.0" },
+    "20250913005": { name: "Grace Johnson", contact: "09265432109", type: "wash & Dry Only", weight: "7.1", status: "Pending", drop: "2025-09-17", pick: "2025-09-21", price: "₱220.0" },
+    "20250913006": { name: "Noah Garcia", contact: "09159087766", type: "Wash & Fold", weight: "5.6", status: "Pending", drop: "2025-09-18", pick: "2025-09-22", price: "₱220.0" },
+    "20250913007": { name: "Olivia Brown", contact: "09278451234", type: "Wash & Fold", weight: "9.3", status: "Pending", drop: "2025-09-19", pick: "2025-09-23", price: "₱220.0" },
+    "20250913068": { name: "Daniel Okoro", contact: "09172345678", type: "Wash & Fold", weight: "8.4", status: "Pending", drop: "2025-09-20", pick: "2025-09-24", price: "₱220.0" }
+
+  };
+
+  document.querySelectorAll(".details-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const row = btn.closest("tr");
+      const id = row.children[3].textContent.trim();
+      const data = customerData[id];
+
+      if (data) {
+        document.getElementById("custID").value = id;
+        document.getElementById("custName").value = data.name;
+        document.getElementById("custContact").value = data.contact;
+        document.getElementById("custLaundryType").value = data.type;
+        document.getElementById("custWeight").value = data.weight;
+        document.getElementById("custStatus").value = data.status;
+        document.getElementById("custDropOff").value = data.drop;
+        document.getElementById("custPickup").value = data.pick;
+        document.getElementById("custPrice").value = data.price;
+
+        document.getElementById("modalHeader").textContent = `Customer Detail`;
+        modalOverlay.style.display = "flex";  // ✅ show modal
+      } else {
+        alert("No data found for this ID.");
+      }
+    });
+  });
+
+  // Close modal with button
+  closeModal.addEventListener("click", () => {
+    modalOverlay.style.display = "none";
+  });
+
+  // Close modal when clicking outside box
+  modalOverlay.addEventListener("click", e => {
+    if (e.target === modalOverlay) {
+      modalOverlay.style.display = "none";
+    }
+  });
+  // When page loads, fade in
+        window.addEventListener("load", () => {
+            document.body.classList.add("fade-in");
+        });
+</script>
+
+</body>
+</html>
