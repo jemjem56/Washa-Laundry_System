@@ -5,4 +5,4 @@
 
 localhost/washka/home.php
 
-#This system is combination of php file and html file because trip ko lang, gikapoy ko'g database tanan hahahah
+#This system is combination of php file and html file because trip ko lang, gikapoy ko hahahah
